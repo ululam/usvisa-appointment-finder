@@ -101,14 +101,15 @@ def main():
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
-    while True:
+    attempts = 0
+    while attempts < 3:
         current_time = time.strftime('%a, %d %b %Y %H:%M:%S', time.localtime())
-        print(f'Starting a new check at {current_time}.')
+        print(f'Starting a new check #{attempts} at {current_time}.')
         try:
             check_appointments(driver)
         except Exception as err:
             print(f'Exception: {err}')
-
+        attempts += 1
         time.sleep(seconds_between_checks)
 
 
